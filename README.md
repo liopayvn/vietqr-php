@@ -9,14 +9,14 @@ Production-ready PHP library for building and parsing VietQR (NAPAS FastFund 24/
 
 ## Features
 
-**EMVCo 1.5.2 Compliant** - Follows NAPAS QR Switching specification v1.5.2
-**Build QR Codes** - Generate QR codes for all service types (PUSH/CASH/IBFT)
-**Parse QR Strings** - Parse any VietQR string into structured data
-**Full Validation** - Comprehensive validation per NAPAS specification
-**CRC16-CCITT** - Automatic checksum calculation and verification
-**Zero Dependencies** - No external runtime dependencies
-**PHP 7.4+** - Strict typing throughout
-**PSR-4 Autoloading** - Modern PHP package structure
+- **EMVCo 1.5.2 Compliant** - Follows NAPAS QR Switching specification v1.5.2
+- **Build QR Codes** - Generate QR codes for all service types (PUSH/CASH/IBFT)
+- **Parse QR Strings** - Parse any VietQR string into structured data
+- **Full Validation** - Comprehensive validation per NAPAS specification
+- **CRC16-CCITT** - Automatic checksum calculation and verification
+- **Zero Dependencies** - No external runtime dependencies
+- **PHP 7.4+** - Strict typing throughout
+- **PSR-4 Autoloading** - Modern PHP package structure
 
 ## Installation
 
