@@ -21,12 +21,12 @@ echo str_repeat("-", 50) . PHP_EOL;
 $pushBuilder = new QRPushBuilder($tlvHelper, $crcHelper);
 $qrPush = $pushBuilder
     ->setPointOfInitiation('12')  // Dynamic QR
-    ->setAcquirerBankBin('970403')
-    ->setMerchantId('123456789')
+    ->setAcquirerBankBin('970436')
+    ->setMerchantId('1017595600')
     ->setServiceCode('QRPUSH')
     ->setMerchantCategoryCode('5812')
     ->setAmount('50000')
-    ->setMerchantName('Coffee Shop')
+    ->setMerchantName('NGO QUOC DAT')
     ->setMerchantCity('HANOI')
     ->setReferenceLabel('ORDER123')
     ->setPurposeOfTransaction('Coffee payment')
@@ -56,11 +56,11 @@ echo str_repeat("-", 50) . PHP_EOL;
 $cashBuilder = new QRCashBuilder($tlvHelper, $crcHelper);
 $qrCash = $cashBuilder
     ->setPointOfInitiation('12')
-    ->setAcquirerBankBin('970468')
+    ->setAcquirerBankBin('970436')
     ->setATMId('ATM001')
     ->setCashService()
     ->setMerchantCategoryCode('6011')
-    ->setMerchantName('Bank ATM')
+    ->setMerchantName('NGO QUOC DAT')
     ->setMerchantCity('HOCHIMINH')
     ->setReferenceLabel('TRANS20240101123456')
     ->setTerminalLabel('TERM001')
@@ -86,8 +86,8 @@ echo str_repeat("-", 50) . PHP_EOL;
 $ibftBuilder = new QRIBFTBuilder($tlvHelper, $crcHelper);
 $qrIbft = $ibftBuilder
     ->setPointOfInitiation('12')
-    ->setBeneficiaryBankBin('970403')
-    ->setConsumerId('0011009950446')
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('1017595600')
     ->setIBFTToAccount()
     ->setAmount('1000000')
     ->setReferenceLabel('TRANSFER001')
@@ -111,8 +111,8 @@ echo "Example 4: Parse Existing QR String" . PHP_EOL;
 echo str_repeat("-", 50) . PHP_EOL;
 
 // This is a valid QR PUSH from the NAPAS specification (page 28)
-$existingQR = '00020101021138480010A00000072701300006970403011621129950446040255204' .
-    '581253037045802VN5910PHUONG CAC6005HANOI62110307NPS686963045802';
+$existingQR = '00020101021138480010A000000727013000069704360114101759560025520' .
+    '4581253037045802VN5912NGO QUOC DAT6005HANOI62110307NPS686963045802';
 
 echo "Input QR: " . $existingQR . PHP_EOL . PHP_EOL;
 

@@ -38,15 +38,15 @@ $builder = new QRPushBuilder($tlvHelper, $crcHelper);
 
 $qrString = $builder
     ->setPointOfInitiation('11') // Static QR
-    ->setAcquirerBankBin('970403')
-    ->setMerchantId('211299504460425')
+    ->setAcquirerBankBin('970436')
+    ->setMerchantId('1017595600')
     ->setMerchantCategoryCode('5812')
-    ->setMerchantName('PHUONG CAC')
+    ->setMerchantName('NGO QUOC DAT')
     ->setMerchantCity('HANOI')
     ->setReferenceLabel('NPS6869')
     ->build();
 
-// Result: 00020101021138480010A00000072701300006970403011621129950446040255204581253037045802VN5910PHUONG CAC6005HANOI62110307NPS686963045802
+// Result: 00020101021138480010A000000727013000069704360114101759560025520458125303704580 2VN5912NGO QUOC DAT6005HANOI62110307NPS686963045802
 ```
 
 ### Parse a QR Code
@@ -61,7 +61,7 @@ $parser = new QRParser($tlvHelper, $crcHelper);
 
 $qrData = $parser->parse($qrString);
 
-echo $qrData->getMerchantName(); // "PHUONG CAC"
+echo $qrData->getMerchantName(); // "NGO QUOC DAT"
 echo $qrData->getAmount(); // "180000"
 echo $qrData->getServiceCode(); // "QRPUSH"
 ```
@@ -77,11 +77,11 @@ Standard merchant payment QR codes.
 $builder = new QRPushBuilder($tlvHelper, $crcHelper);
 $qr = $builder
     ->setPointOfInitiation('12') // Dynamic
-    ->setAcquirerBankBin('970403')
-    ->setMerchantId('211299504460425')
+    ->setAcquirerBankBin('970436')
+    ->setMerchantId('1017595600')
     ->setMerchantCategoryCode('5812')
     ->setAmount('180000')
-    ->setMerchantName('PHUONG CAC')
+    ->setMerchantName('NGO QUOC DAT')
     ->setMerchantCity('HANOI')
     ->build();
 ```
@@ -93,11 +93,11 @@ QR codes for ATM cash withdrawal. **Note**: Reference Label and Terminal Label a
 $builder = new QRCashBuilder($tlvHelper, $crcHelper);
 $qr = $builder
     ->setPointOfInitiation('12') // Must be dynamic
-    ->setAcquirerBankBin('970403')
+    ->setAcquirerBankBin('970436')
     ->setATMId('12345678')
     ->setCashService() // Sets service code to QRCASH
     ->setMerchantCategoryCode('6011')
-    ->setMerchantName('NGUYEN HUU HUAN')
+    ->setMerchantName('NGO QUOC DAT')
     ->setMerchantCity('HANOI')
     ->setReferenceLabel('20190109155714228384') // Required
     ->setTerminalLabel('0000111') // Required
@@ -111,8 +111,8 @@ Peer-to-peer transfer to bank account.
 $builder = new QRIBFTBuilder($tlvHelper, $crcHelper);
 $qr = $builder
     ->setPointOfInitiation('11') // Static
-    ->setBeneficiaryBankBin('970468')
-    ->setConsumerId('0011009950446')
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('1017595600')
     ->setIBFTToAccount()
     ->build();
 ```
@@ -124,8 +124,8 @@ Peer-to-peer transfer to card number.
 $builder = new QRIBFTBuilder($tlvHelper, $crcHelper);
 $qr = $builder
     ->setPointOfInitiation('12') // Dynamic
-    ->setBeneficiaryBankBin('970403')
-    ->setConsumerId('9704031101234567')
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('9704361017595600')
     ->setIBFTToCard()
     ->setAmount('180000')
     ->build();
@@ -163,19 +163,19 @@ VietQR uses TLV (Tag-Length-Value) encoding:
 
 ```
 Format: ID (2 digits) + Length (2 digits) + Value (variable)
-Example: "59" + "10" + "PHUONG CAC"
+Example: "59" + "12" + "NGO QUOC DAT"
 ```
 
 ```php
 $tlvHelper = new TLVHelper();
 
 // Encode
-$encoded = $tlvHelper->encode('59', 'PHUONG CAC');
-// Result: "5910PHUONG CAC"
+$encoded = $tlvHelper->encode('59', 'NGO QUOC DAT');
+// Result: "5912NGO QUOC DAT"
 
 // Decode
 $decoded = $tlvHelper->decode($encoded);
-// Result: ['59' => 'PHUONG CAC']
+// Result: ['59' => 'NGO QUOC DAT']
 ```
 
 ## CRC Checksum

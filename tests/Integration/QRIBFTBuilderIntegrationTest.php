@@ -30,15 +30,15 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
     {
         $qr = $this->builder
             ->setPointOfInitiation('11')  // Static
-            ->setBeneficiaryBankBin('970403')
-            ->setConsumerId('0011012345678')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('1017595600')
             ->setIBFTToAccount()
             ->build();
 
         // Should contain QRIBFTTA service code
         $this->assertStringContainsString('QRIBFTTA', $qr);
-        $this->assertStringContainsString('970403', $qr);
-        $this->assertStringContainsString('0011012345678', $qr);
+        $this->assertStringContainsString('970436', $qr);
+        $this->assertStringContainsString('1017595600', $qr);
 
         // Verify CRC
         $crcHelper = new CRCHelper();
@@ -53,15 +53,15 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
     {
         $qr = $this->builder
             ->setPointOfInitiation('11')  // Static
-            ->setBeneficiaryBankBin('970403')
-            ->setConsumerId('9704031101234567')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('9704361017595600')
             ->setIBFTToCard()
             ->build();
 
         // Should contain QRIBFTTC service code
         $this->assertStringContainsString('QRIBFTTC', $qr);
-        $this->assertStringContainsString('970403', $qr);
-        $this->assertStringContainsString('9704031101234567', $qr);
+        $this->assertStringContainsString('970436', $qr);
+        $this->assertStringContainsString('9704361017595600', $qr);
 
         // Verify CRC
         $crcHelper = new CRCHelper();
@@ -76,8 +76,8 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
     {
         $qr = $this->builder
             ->setPointOfInitiation('12')  // Dynamic
-            ->setBeneficiaryBankBin('970468')
-            ->setConsumerId('0011009950446')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('1017595600')
             ->setIBFTToAccount()
             ->setAmount('180000')
             ->setReferenceLabel('NPS6869')
@@ -85,7 +85,7 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
             ->build();
 
         $this->assertStringContainsString('QRIBFTTA', $qr);
-        $this->assertStringContainsString('970468', $qr);
+        $this->assertStringContainsString('970436', $qr);
         $this->assertStringContainsString('180000', $qr);
         $this->assertStringContainsString('NPS6869', $qr);
         $this->assertStringContainsString('thanh toan don hang', $qr);
@@ -103,8 +103,8 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
     {
         $qr = $this->builder
             ->setPointOfInitiation('12')  // Dynamic
-            ->setBeneficiaryBankBin('970403')
-            ->setConsumerId('9704031101234567')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('9704361017595600')
             ->setIBFTToCard()
             ->setAmount('180000')
             ->setReferenceLabel('NPS6869')
@@ -112,7 +112,7 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
             ->build();
 
         $this->assertStringContainsString('QRIBFTTC', $qr);
-        $this->assertStringContainsString('970403', $qr);
+        $this->assertStringContainsString('970436', $qr);
         $this->assertStringContainsString('180000', $qr);
 
         // Verify CRC
@@ -127,11 +127,11 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
     {
         $qr = $this->builder
             ->setPointOfInitiation('12')
-            ->setBeneficiaryBankBin('970468')
-            ->setConsumerId('0011009950446')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('1017595600')
             ->setIBFTToAccount()
             ->setAmount('250000')
-            ->setMerchantName('NGUYEN VAN A')
+            ->setMerchantName('NGO QUOC DAT')
             ->setMerchantCity('HANOI')
             ->setPostalCode('100000')
             ->setBillNumber('BILL123')
@@ -142,9 +142,9 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
             ->build();
 
         // Verify all fields are present
-        $this->assertStringContainsString('970468', $qr);
+        $this->assertStringContainsString('970436', $qr);
         $this->assertStringContainsString('250000', $qr);
-        $this->assertStringContainsString('NGUYEN VAN A', $qr);
+        $this->assertStringContainsString('NGO QUOC DAT', $qr);
 
         // Verify CRC
         $crcHelper = new CRCHelper();

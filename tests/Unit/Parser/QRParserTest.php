@@ -31,10 +31,10 @@ final class QRParserTest extends TestCase
         $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('11')
-            ->setAcquirerBankBin('970403')
-            ->setMerchantId('2112995044604025')
+            ->setAcquirerBankBin('970436')
+            ->setMerchantId('1017595600')
             ->setMerchantCategoryCode('5812')
-            ->setMerchantName('PHUONG CAC')
+            ->setMerchantName('NGO QUOC DAT')
             ->setMerchantCity('HANOI')
             ->build();
 
@@ -46,13 +46,13 @@ final class QRParserTest extends TestCase
         $this->assertSame('11', $parsed->getPointOfInitiation());
         $this->assertTrue($parsed->isStatic());
         $this->assertFalse($parsed->isDynamic());
-        $this->assertSame('970403', $parsed->getBankBin());
-        $this->assertSame('2112995044604025', $parsed->getMerchantId());
+        $this->assertSame('970436', $parsed->getBankBin());
+        $this->assertSame('1017595600', $parsed->getMerchantId());
         $this->assertNull($parsed->getServiceCode());
         $this->assertSame('5812', $parsed->getMerchantCategoryCode());
         $this->assertSame('704', $parsed->getCurrency());
         $this->assertSame('VN', $parsed->getCountry());
-        $this->assertSame('PHUONG CAC', $parsed->getMerchantName());
+        $this->assertSame('NGO QUOC DAT', $parsed->getMerchantName());
         $this->assertSame('HANOI', $parsed->getMerchantCity());
         $this->assertSame('QRPUSH', $parsed->getQRType());
     }
@@ -63,12 +63,12 @@ final class QRParserTest extends TestCase
         $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('12')
-            ->setAcquirerBankBin('970468')
-            ->setMerchantId('123456789')
+            ->setAcquirerBankBin('970436')
+            ->setMerchantId('1017595600')
             ->setServiceCode('QRPUSH')
             ->setMerchantCategoryCode('5411')
             ->setAmount('50000')
-            ->setMerchantName('Test Merchant')
+            ->setMerchantName('NGO QUOC DAT')
             ->setMerchantCity('HOCHIMINH')
             ->setPostalCode('700000')
             ->setReferenceLabel('REF123')
@@ -81,12 +81,12 @@ final class QRParserTest extends TestCase
         // Verify parsed data
         $this->assertSame('12', $parsed->getPointOfInitiation());
         $this->assertTrue($parsed->isDynamic());
-        $this->assertSame('970468', $parsed->getBankBin());
-        $this->assertSame('123456789', $parsed->getMerchantId());
+        $this->assertSame('970436', $parsed->getBankBin());
+        $this->assertSame('1017595600', $parsed->getMerchantId());
         $this->assertSame('QRPUSH', $parsed->getServiceCode());
         $this->assertSame('5411', $parsed->getMerchantCategoryCode());
         $this->assertSame('50000', $parsed->getAmount());
-        $this->assertSame('Test Merchant', $parsed->getMerchantName());
+        $this->assertSame('NGO QUOC DAT', $parsed->getMerchantName());
         $this->assertSame('HOCHIMINH', $parsed->getMerchantCity());
         $this->assertSame('700000', $parsed->getPostalCode());
         $this->assertSame('REF123', $parsed->getAdditionalData()->getReferenceLabel());
@@ -100,11 +100,11 @@ final class QRParserTest extends TestCase
         $builder = new QRCashBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('12')
-            ->setAcquirerBankBin('970403')
+            ->setAcquirerBankBin('970436')
             ->setATMId('12345678')
             ->setCashService()
             ->setMerchantCategoryCode('6011')
-            ->setMerchantName('ATM TEST')
+            ->setMerchantName('NGO QUOC DAT')
             ->setMerchantCity('HANOI')
             ->setReferenceLabel('TRANS001')
             ->setTerminalLabel('TERM001')
@@ -115,11 +115,11 @@ final class QRParserTest extends TestCase
 
         // Verify parsed data
         $this->assertSame('12', $parsed->getPointOfInitiation());
-        $this->assertSame('970403', $parsed->getBankBin());
+        $this->assertSame('970436', $parsed->getBankBin());
         $this->assertSame('12345678', $parsed->getMerchantId());
         $this->assertSame('QRCASH', $parsed->getServiceCode());
         $this->assertSame('6011', $parsed->getMerchantCategoryCode());
-        $this->assertSame('ATM TEST', $parsed->getMerchantName());
+        $this->assertSame('NGO QUOC DAT', $parsed->getMerchantName());
         $this->assertSame('HANOI', $parsed->getMerchantCity());
         $this->assertSame('TRANS001', $parsed->getAdditionalData()->getReferenceLabel());
         $this->assertSame('TERM001', $parsed->getAdditionalData()->getTerminalLabel());
@@ -132,8 +132,8 @@ final class QRParserTest extends TestCase
         $builder = new QRIBFTBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('11')
-            ->setBeneficiaryBankBin('970468')
-            ->setConsumerId('0011009950446')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('1017595600')
             ->setIBFTToAccount()
             ->setAmount('250000')
             ->setReferenceLabel('REF456')
@@ -144,8 +144,8 @@ final class QRParserTest extends TestCase
 
         // Verify parsed data
         $this->assertSame('11', $parsed->getPointOfInitiation());
-        $this->assertSame('970468', $parsed->getBankBin());
-        $this->assertSame('0011009950446', $parsed->getMerchantId());
+        $this->assertSame('970436', $parsed->getBankBin());
+        $this->assertSame('1017595600', $parsed->getMerchantId());
         $this->assertSame('QRIBFTTA', $parsed->getServiceCode());
         $this->assertSame('250000', $parsed->getAmount());
         $this->assertSame('REF456', $parsed->getAdditionalData()->getReferenceLabel());
@@ -158,8 +158,8 @@ final class QRParserTest extends TestCase
         $builder = new QRIBFTBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('11')
-            ->setBeneficiaryBankBin('970403')
-            ->setConsumerId('9704031101234567')
+            ->setBeneficiaryBankBin('970436')
+            ->setConsumerId('9704361017595600')
             ->setIBFTToCard()
             ->build();
 
@@ -168,8 +168,8 @@ final class QRParserTest extends TestCase
 
         // Verify parsed data
         $this->assertSame('11', $parsed->getPointOfInitiation());
-        $this->assertSame('970403', $parsed->getBankBin());
-        $this->assertSame('9704031101234567', $parsed->getMerchantId());
+        $this->assertSame('970436', $parsed->getBankBin());
+        $this->assertSame('9704361017595600', $parsed->getMerchantId());
         $this->assertSame('QRIBFTTC', $parsed->getServiceCode());
         $this->assertSame('QRIBFTTC', $parsed->getQRType());
     }
@@ -205,11 +205,11 @@ final class QRParserTest extends TestCase
         $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
         $qr = $builder
             ->setPointOfInitiation('12')
-            ->setAcquirerBankBin('970403')
-            ->setMerchantId('123456789')
+            ->setAcquirerBankBin('970436')
+            ->setMerchantId('1017595600')
             ->setMerchantCategoryCode('5812')
             ->setAmount('100000')
-            ->setMerchantName('Test')
+            ->setMerchantName('NGO QUOC DAT')
             ->setMerchantCity('HN')
             ->setBillNumber('BILL123')
             ->setMobileNumber('0912345678')
