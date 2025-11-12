@@ -1,6 +1,6 @@
 {
     "name": "liopay/vietqr",
-    "description": "Thư viện PHP giúp tạo và phân tích mã QR VietQR (NAPAS FastFund 24/7 IBFT) tuân theo chuẩn EMVCo.",
+    "description": "Production-ready PHP library for building and parsing VietQR (NAPAS FastFund 24/7 IBFT) QR codes compliant with EMVCo 1.5.2 specification.",
     "type": "library",
     "license": "MIT",
     "homepage": "https://liopay.vn",
@@ -8,13 +8,16 @@
         "vietqr",
         "napas",
         "emvco",
-        "qr",
+        "qr-code",
+        "qr-payment",
         "fastfund",
         "ibft",
-        "chuyển tiền",
-        "ngân hàng",
-        "liopay",
-        "vietnam"
+        "payment",
+        "bank-transfer",
+        "vietnam",
+        "vietnamese-payment",
+        "qr-generator",
+        "qr-parser"
     ],
     "autoload": {
         "psr-4": {
