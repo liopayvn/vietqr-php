@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Liopay\VietQR\Tests\Unit\Parser;
 
 use Liopay\VietQR\Builder\{QRPushBuilder, QRCashBuilder, QRIBFTBuilder};
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
 use Liopay\VietQR\Parser\QRParser;
 use PHPUnit\Framework\TestCase;
 
@@ -15,20 +14,16 @@ use PHPUnit\Framework\TestCase;
 final class QRParserTest extends TestCase
 {
     private QRParser $parser;
-    private TLVHelper $tlvHelper;
-    private CRCHelper $crcHelper;
 
     protected function setUp(): void
     {
-        $this->tlvHelper = new TLVHelper();
-        $this->crcHelper = new CRCHelper();
-        $this->parser = new QRParser($this->tlvHelper, $this->crcHelper);
+        $this->parser = new QRParser();
     }
 
     public function testParseQRPushStaticWithoutServiceCode(): void
     {
         // Build a QR code
-        $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRPushBuilder();
         $qr = $builder
             ->setPointOfInitiation('11')
             ->setAcquirerBankBin('970436')
@@ -60,7 +55,7 @@ final class QRParserTest extends TestCase
     public function testParseQRPushDynamicWithServiceCode(): void
     {
         // Build a QR code
-        $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRPushBuilder();
         $qr = $builder
             ->setPointOfInitiation('12')
             ->setAcquirerBankBin('970436')
@@ -97,7 +92,7 @@ final class QRParserTest extends TestCase
     public function testParseQRCash(): void
     {
         // Build a QR Cash code
-        $builder = new QRCashBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRCashBuilder();
         $qr = $builder
             ->setPointOfInitiation('12')
             ->setAcquirerBankBin('970436')
@@ -129,7 +124,7 @@ final class QRParserTest extends TestCase
     public function testParseQRIBFTToAccount(): void
     {
         // Build a QR IBFT code
-        $builder = new QRIBFTBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRIBFTBuilder();
         $qr = $builder
             ->setPointOfInitiation('11')
             ->setBeneficiaryBankBin('970436')
@@ -155,7 +150,7 @@ final class QRParserTest extends TestCase
     public function testParseQRIBFTToCard(): void
     {
         // Build a QR IBFT to card code
-        $builder = new QRIBFTBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRIBFTBuilder();
         $qr = $builder
             ->setPointOfInitiation('11')
             ->setBeneficiaryBankBin('970436')
@@ -202,7 +197,7 @@ final class QRParserTest extends TestCase
     public function testParseAdditionalDataFields(): void
     {
         // Build QR with several additional data fields (but not so many to exceed 99 byte limit)
-        $builder = new QRPushBuilder($this->tlvHelper, $this->crcHelper);
+        $builder = new QRPushBuilder();
         $qr = $builder
             ->setPointOfInitiation('12')
             ->setAcquirerBankBin('970436')

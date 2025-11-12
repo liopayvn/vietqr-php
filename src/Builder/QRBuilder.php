@@ -24,10 +24,10 @@ abstract class QRBuilder
 
     protected AdditionalDataField $additionalData;
 
-    public function __construct(TLVHelper $tlvHelper, CRCHelper $crcHelper)
+    public function __construct(?TLVHelper $tlvHelper = null, ?CRCHelper $crcHelper = null)
     {
-        $this->tlvHelper = $tlvHelper;
-        $this->crcHelper = $crcHelper;
+        $this->tlvHelper = $tlvHelper ?? new TLVHelper();
+        $this->crcHelper = $crcHelper ?? new CRCHelper();
         $this->additionalData = new AdditionalDataField();
         $this->reset();
     }

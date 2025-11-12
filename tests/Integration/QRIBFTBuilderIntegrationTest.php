@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liopay\VietQR\Tests\Integration;
 
 use Liopay\VietQR\Builder\QRIBFTBuilder;
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
+use Liopay\VietQR\Helper\CRCHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +19,7 @@ final class QRIBFTBuilderIntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->builder = new QRIBFTBuilder(new TLVHelper(), new CRCHelper());
+        $this->builder = new QRIBFTBuilder();
     }
 
     /**

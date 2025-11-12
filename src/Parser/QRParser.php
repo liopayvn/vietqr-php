@@ -21,10 +21,10 @@ final class QRParser
     private TLVHelper $tlvHelper;
     private CRCHelper $crcHelper;
 
-    public function __construct(TLVHelper $tlvHelper, CRCHelper $crcHelper)
+    public function __construct(?TLVHelper $tlvHelper = null, ?CRCHelper $crcHelper = null)
     {
-        $this->tlvHelper = $tlvHelper;
-        $this->crcHelper = $crcHelper;
+        $this->tlvHelper = $tlvHelper ?? new TLVHelper();
+        $this->crcHelper = $crcHelper ?? new CRCHelper();
     }
 
     /**

@@ -6,11 +6,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Liopay\VietQR\Builder\{QRPushBuilder, QRCashBuilder, QRIBFTBuilder};
 use Liopay\VietQR\Parser\QRParser;
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
-
-// Initialize helpers
-$tlvHelper = new TLVHelper();
-$crcHelper = new CRCHelper();
 
 echo "=== VietQR Parser Usage Examples ===" . PHP_EOL . PHP_EOL;
 
@@ -18,7 +13,7 @@ echo "=== VietQR Parser Usage Examples ===" . PHP_EOL . PHP_EOL;
 echo "Example 1: QR Push Payment" . PHP_EOL;
 echo str_repeat("-", 50) . PHP_EOL;
 
-$pushBuilder = new QRPushBuilder($tlvHelper, $crcHelper);
+$pushBuilder = new QRPushBuilder();
 $qrPush = $pushBuilder
     ->setPointOfInitiation('12')  // Dynamic QR
     ->setAcquirerBankBin('970436')
@@ -35,7 +30,7 @@ $qrPush = $pushBuilder
 echo "Generated QR: " . $qrPush . PHP_EOL . PHP_EOL;
 
 // Parse the QR code
-$parser = new QRParser($tlvHelper, $crcHelper);
+$parser = new QRParser();
 $parsed = $parser->parse($qrPush);
 
 echo "Parsed Data:" . PHP_EOL;
@@ -53,7 +48,7 @@ echo PHP_EOL;
 echo "Example 2: QR Cash Withdrawal" . PHP_EOL;
 echo str_repeat("-", 50) . PHP_EOL;
 
-$cashBuilder = new QRCashBuilder($tlvHelper, $crcHelper);
+$cashBuilder = new QRCashBuilder();
 $qrCash = $cashBuilder
     ->setPointOfInitiation('12')
     ->setAcquirerBankBin('970436')
@@ -83,7 +78,7 @@ echo PHP_EOL;
 echo "Example 3: QR IBFT to Account" . PHP_EOL;
 echo str_repeat("-", 50) . PHP_EOL;
 
-$ibftBuilder = new QRIBFTBuilder($tlvHelper, $crcHelper);
+$ibftBuilder = new QRIBFTBuilder();
 $qrIbft = $ibftBuilder
     ->setPointOfInitiation('12')
     ->setBeneficiaryBankBin('970436')

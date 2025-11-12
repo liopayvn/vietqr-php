@@ -29,12 +29,9 @@ composer require liopay/vietqr
 ### Build a Static Payment QR Code
 
 ```php
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
 use Liopay\VietQR\Builder\QRPushBuilder;
 
-$tlvHelper = new TLVHelper();
-$crcHelper = new CRCHelper();
-$builder = new QRPushBuilder($tlvHelper, $crcHelper);
+$builder = new QRPushBuilder();
 
 $qrString = $builder
     ->setPointOfInitiation('11') // Static QR
@@ -52,12 +49,9 @@ $qrString = $builder
 ### Parse a QR Code
 
 ```php
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
 use Liopay\VietQR\Parser\QRParser;
 
-$tlvHelper = new TLVHelper();
-$crcHelper = new CRCHelper();
-$parser = new QRParser($tlvHelper, $crcHelper);
+$parser = new QRParser();
 
 $qrData = $parser->parse($qrString);
 
@@ -74,7 +68,7 @@ VietQR supports four service types:
 Standard merchant payment QR codes.
 
 ```php
-$builder = new QRPushBuilder($tlvHelper, $crcHelper);
+$builder = new QRPushBuilder();
 $qr = $builder
     ->setPointOfInitiation('12') // Dynamic
     ->setAcquirerBankBin('970436')
@@ -90,7 +84,7 @@ $qr = $builder
 QR codes for ATM cash withdrawal. **Note**: Reference Label and Terminal Label are mandatory.
 
 ```php
-$builder = new QRCashBuilder($tlvHelper, $crcHelper);
+$builder = new QRCashBuilder();
 $qr = $builder
     ->setPointOfInitiation('12') // Must be dynamic
     ->setAcquirerBankBin('970436')
@@ -108,7 +102,7 @@ $qr = $builder
 Peer-to-peer transfer to bank account.
 
 ```php
-$builder = new QRIBFTBuilder($tlvHelper, $crcHelper);
+$builder = new QRIBFTBuilder();
 $qr = $builder
     ->setPointOfInitiation('11') // Static
     ->setBeneficiaryBankBin('970436')
@@ -121,7 +115,7 @@ $qr = $builder
 Peer-to-peer transfer to card number.
 
 ```php
-$builder = new QRIBFTBuilder($tlvHelper, $crcHelper);
+$builder = new QRIBFTBuilder();
 $qr = $builder
     ->setPointOfInitiation('12') // Dynamic
     ->setBeneficiaryBankBin('970436')

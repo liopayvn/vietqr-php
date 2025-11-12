@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liopay\VietQR\Tests\Integration;
 
 use Liopay\VietQR\Builder\QRPushBuilder;
-use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
+use Liopay\VietQR\Helper\CRCHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +19,7 @@ final class QRPushBuilderIntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->builder = new QRPushBuilder(new TLVHelper(), new CRCHelper());
+        $this->builder = new QRPushBuilder();
     }
 
     /**
