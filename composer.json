@@ -35,7 +35,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.4",
-        "ext-mbstring": "*"
+        "endroid/qr-code": "^6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.87",
