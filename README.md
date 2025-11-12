@@ -282,7 +282,6 @@ composer cs-fix
 ## Requirements
 
 - PHP >= 7.4
-- ext-mbstring
 
 ## Specification Compliance
 
