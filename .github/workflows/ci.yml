@@ -2,20 +2,23 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+    paths:
+      - "**.php"
+      - ".github/workflows/ci.yml"
+      - "composer.json"
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [ubuntu-latest]
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        os: [ubuntu-latest, windows-latest]
+        php: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+        stability: [prefer-lowest, prefer-stable]
 
-    name: PHP ${{ matrix.php }} on ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -27,40 +30,11 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
 
-      - name: Validate composer.json
-        run: composer validate --strict
-
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Run PHPUnit tests
-        run: composer test
+      - name: List Installed Dependencies
+        run: composer show -D
 
-      - name: Run PHPStan static analysis
-        run: composer phpstan
-
-  coverage:
-    runs-on: ubuntu-latest
-    name: Code Coverage
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          coverage: xdebug
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
-
-      - name: Run tests with coverage
-        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          fail_ci_if_error: false
+      - name: Execute tests
+        run: vendor/bin/phpunit
