@@ -18,6 +18,8 @@ final class QRCashBuilder extends QRBuilder
 {
     /**
      * Set ATM ID (uses merchantId internally)
+     *
+     * @return static
      */
     public function setATMId(string $atmId): self
     {
@@ -26,6 +28,8 @@ final class QRCashBuilder extends QRBuilder
 
     /**
      * Set service code to QRCASH
+     *
+     * @return static
      */
     public function setCashService(): self
     {

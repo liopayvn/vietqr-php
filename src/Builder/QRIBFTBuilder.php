@@ -18,6 +18,8 @@ final class QRIBFTBuilder extends QRBuilder
 {
     /**
      * Set beneficiary bank BIN (instead of acquirer)
+     *
+     * @return static
      */
     public function setBeneficiaryBankBin(string $bin): self
     {
@@ -26,6 +28,8 @@ final class QRIBFTBuilder extends QRBuilder
 
     /**
      * Set consumer/beneficiary account or card
+     *
+     * @return static
      */
     public function setConsumerId(string $consumerId): self
     {
@@ -34,6 +38,8 @@ final class QRIBFTBuilder extends QRBuilder
 
     /**
      * Set service code for IBFT to card
+     *
+     * @return static
      */
     public function setIBFTToCard(): self
     {
@@ -42,6 +48,8 @@ final class QRIBFTBuilder extends QRBuilder
 
     /**
      * Set service code for IBFT to account
+     *
+     * @return static
      */
     public function setIBFTToAccount(): self
     {

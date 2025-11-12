@@ -34,6 +34,8 @@ abstract class QRBuilder
 
     /**
      * Set payload format indicator (always "01")
+     *
+     * @return static
      */
     public function setPayloadFormat(string $format = Specifications::PAYLOAD_FORMAT): self
     {
@@ -45,6 +47,7 @@ abstract class QRBuilder
      * Set point of initiation method
      *
      * @param string $method "11" for static, "12" for dynamic
+     * @return static
      */
     public function setPointOfInitiation(string $method): self
     {
@@ -57,6 +60,8 @@ abstract class QRBuilder
 
     /**
      * Set GUID (Application Identifier)
+     *
+     * @return static
      */
     public function setGUID(string $guid = Specifications::GUID_AID): self
     {
@@ -68,6 +73,7 @@ abstract class QRBuilder
      * Set acquirer bank BIN
      *
      * @param string $bin 6-digit bank BIN
+     * @return static
      */
     public function setAcquirerBankBin(string $bin): self
     {
@@ -80,6 +86,7 @@ abstract class QRBuilder
      * Set merchant ID
      *
      * @param string $merchantId Max 19 characters
+     * @return static
      */
     public function setMerchantId(string $merchantId): self
     {
@@ -90,6 +97,8 @@ abstract class QRBuilder
 
     /**
      * Set service code
+     *
+     * @return static
      */
     public function setServiceCode(?string $serviceCode): self
     {
@@ -104,6 +113,7 @@ abstract class QRBuilder
      * Set merchant category code
      *
      * @param string $mcc 4-digit MCC
+     * @return static
      */
     public function setMerchantCategoryCode(string $mcc): self
     {
@@ -114,6 +124,8 @@ abstract class QRBuilder
 
     /**
      * Set transaction currency (default VND = "704")
+     *
+     * @return static
      */
     public function setCurrency(string $currency = Specifications::CURRENCY_VND): self
     {
@@ -125,6 +137,7 @@ abstract class QRBuilder
      * Set transaction amount
      *
      * @param string|null $amount Numeric amount with optional decimal point
+     * @return static
      */
     public function setAmount(?string $amount): self
     {
@@ -137,6 +150,8 @@ abstract class QRBuilder
 
     /**
      * Set country code (default VN)
+     *
+     * @return static
      */
     public function setCountry(string $country = Specifications::COUNTRY_VN): self
     {
@@ -148,6 +163,7 @@ abstract class QRBuilder
      * Set merchant name
      *
      * @param string|null $name Max 25 characters
+     * @return static
      */
     public function setMerchantName(?string $name): self
     {
@@ -162,6 +178,7 @@ abstract class QRBuilder
      * Set merchant city
      *
      * @param string|null $city Max 15 characters
+     * @return static
      */
     public function setMerchantCity(?string $city): self
     {
@@ -176,6 +193,7 @@ abstract class QRBuilder
      * Set postal code
      *
      * @param string|null $postalCode Max 10 characters
+     * @return static
      */
     public function setPostalCode(?string $postalCode): self
     {
@@ -188,48 +206,72 @@ abstract class QRBuilder
 
     // Additional Data Field setters
 
+    /**
+     * @return static
+     */
     public function setBillNumber(?string $billNumber): self
     {
         $this->additionalData->setBillNumber($billNumber);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setMobileNumber(?string $mobile): self
     {
         $this->additionalData->setMobileNumber($mobile);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setStoreLabel(?string $store): self
     {
         $this->additionalData->setStoreLabel($store);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setLoyaltyNumber(?string $loyalty): self
     {
         $this->additionalData->setLoyaltyNumber($loyalty);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setReferenceLabel(?string $reference): self
     {
         $this->additionalData->setReferenceLabel($reference);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setCustomerLabel(?string $customer): self
     {
         $this->additionalData->setCustomerLabel($customer);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setTerminalLabel(?string $terminal): self
     {
         $this->additionalData->setTerminalLabel($terminal);
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function setPurposeOfTransaction(?string $purpose): self
     {
         $this->additionalData->setPurposeOfTransaction($purpose);
@@ -358,6 +400,8 @@ abstract class QRBuilder
 
     /**
      * Reset builder to initial state
+     *
+     * @return static
      */
     public function reset(): self
     {
