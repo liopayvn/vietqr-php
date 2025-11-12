@@ -35,7 +35,7 @@ abstract class QRBuilder
     /**
      * Set payload format indicator (always "01")
      */
-    public function setPayloadFormat(string $format = Specifications::PAYLOAD_FORMAT): static
+    public function setPayloadFormat(string $format = Specifications::PAYLOAD_FORMAT): self
     {
         $this->data['payloadFormat'] = $format;
         return $this;
@@ -46,7 +46,7 @@ abstract class QRBuilder
      *
      * @param string $method "11" for static, "12" for dynamic
      */
-    public function setPointOfInitiation(string $method): static
+    public function setPointOfInitiation(string $method): self
     {
         if (!in_array($method, ['11', '12'], true)) {
             throw new ValidationException("Invalid point of initiation: {$method}. Must be '11' or '12'");
@@ -58,7 +58,7 @@ abstract class QRBuilder
     /**
      * Set GUID (Application Identifier)
      */
-    public function setGUID(string $guid = Specifications::GUID_AID): static
+    public function setGUID(string $guid = Specifications::GUID_AID): self
     {
         $this->data['guid'] = $guid;
         return $this;
@@ -69,7 +69,7 @@ abstract class QRBuilder
      *
      * @param string $bin 6-digit bank BIN
      */
-    public function setAcquirerBankBin(string $bin): static
+    public function setAcquirerBankBin(string $bin): self
     {
         $this->validateNumericField('Bank BIN', $bin, Specifications::BANK_BIN_LENGTH);
         $this->data['bankBin'] = $bin;
@@ -81,7 +81,7 @@ abstract class QRBuilder
      *
      * @param string $merchantId Max 19 characters
      */
-    public function setMerchantId(string $merchantId): static
+    public function setMerchantId(string $merchantId): self
     {
         $this->validateFieldLength('Merchant ID', $merchantId, Specifications::MAX_MERCHANT_ID);
         $this->data['merchantId'] = $merchantId;
@@ -91,7 +91,7 @@ abstract class QRBuilder
     /**
      * Set service code
      */
-    public function setServiceCode(?string $serviceCode): static
+    public function setServiceCode(?string $serviceCode): self
     {
         if ($serviceCode !== null) {
             $this->validateFieldLength('Service Code', $serviceCode, Specifications::MAX_SERVICE_CODE);
@@ -105,7 +105,7 @@ abstract class QRBuilder
      *
      * @param string $mcc 4-digit MCC
      */
-    public function setMerchantCategoryCode(string $mcc): static
+    public function setMerchantCategoryCode(string $mcc): self
     {
         $this->validateNumericField('MCC', $mcc, Specifications::MCC_LENGTH);
         $this->data['mcc'] = $mcc;
@@ -115,7 +115,7 @@ abstract class QRBuilder
     /**
      * Set transaction currency (default VND = "704")
      */
-    public function setCurrency(string $currency = Specifications::CURRENCY_VND): static
+    public function setCurrency(string $currency = Specifications::CURRENCY_VND): self
     {
         $this->data['currency'] = $currency;
         return $this;
@@ -126,7 +126,7 @@ abstract class QRBuilder
      *
      * @param string|null $amount Numeric amount with optional decimal point
      */
-    public function setAmount(?string $amount): static
+    public function setAmount(?string $amount): self
     {
         if ($amount !== null) {
             $this->validateAmount($amount);
@@ -138,7 +138,7 @@ abstract class QRBuilder
     /**
      * Set country code (default VN)
      */
-    public function setCountry(string $country = Specifications::COUNTRY_VN): static
+    public function setCountry(string $country = Specifications::COUNTRY_VN): self
     {
         $this->data['country'] = $country;
         return $this;
@@ -149,7 +149,7 @@ abstract class QRBuilder
      *
      * @param string|null $name Max 25 characters
      */
-    public function setMerchantName(?string $name): static
+    public function setMerchantName(?string $name): self
     {
         if ($name !== null) {
             $this->validateFieldLength('Merchant Name', $name, Specifications::MAX_MERCHANT_NAME);
@@ -163,7 +163,7 @@ abstract class QRBuilder
      *
      * @param string|null $city Max 15 characters
      */
-    public function setMerchantCity(?string $city): static
+    public function setMerchantCity(?string $city): self
     {
         if ($city !== null) {
             $this->validateFieldLength('Merchant City', $city, Specifications::MAX_MERCHANT_CITY);
@@ -177,7 +177,7 @@ abstract class QRBuilder
      *
      * @param string|null $postalCode Max 10 characters
      */
-    public function setPostalCode(?string $postalCode): static
+    public function setPostalCode(?string $postalCode): self
     {
         if ($postalCode !== null) {
             $this->validateFieldLength('Postal Code', $postalCode, Specifications::MAX_POSTAL_CODE);
@@ -188,49 +188,49 @@ abstract class QRBuilder
 
     // Additional Data Field setters
 
-    public function setBillNumber(?string $billNumber): static
+    public function setBillNumber(?string $billNumber): self
     {
         $this->additionalData->setBillNumber($billNumber);
         return $this;
     }
 
-    public function setMobileNumber(?string $mobile): static
+    public function setMobileNumber(?string $mobile): self
     {
         $this->additionalData->setMobileNumber($mobile);
         return $this;
     }
 
-    public function setStoreLabel(?string $store): static
+    public function setStoreLabel(?string $store): self
     {
         $this->additionalData->setStoreLabel($store);
         return $this;
     }
 
-    public function setLoyaltyNumber(?string $loyalty): static
+    public function setLoyaltyNumber(?string $loyalty): self
     {
         $this->additionalData->setLoyaltyNumber($loyalty);
         return $this;
     }
 
-    public function setReferenceLabel(?string $reference): static
+    public function setReferenceLabel(?string $reference): self
     {
         $this->additionalData->setReferenceLabel($reference);
         return $this;
     }
 
-    public function setCustomerLabel(?string $customer): static
+    public function setCustomerLabel(?string $customer): self
     {
         $this->additionalData->setCustomerLabel($customer);
         return $this;
     }
 
-    public function setTerminalLabel(?string $terminal): static
+    public function setTerminalLabel(?string $terminal): self
     {
         $this->additionalData->setTerminalLabel($terminal);
         return $this;
     }
 
-    public function setPurposeOfTransaction(?string $purpose): static
+    public function setPurposeOfTransaction(?string $purpose): self
     {
         $this->additionalData->setPurposeOfTransaction($purpose);
         return $this;
@@ -359,7 +359,7 @@ abstract class QRBuilder
     /**
      * Reset builder to initial state
      */
-    public function reset(): static
+    public function reset(): self
     {
         $this->data = [
             'payloadFormat' => Specifications::PAYLOAD_FORMAT,
