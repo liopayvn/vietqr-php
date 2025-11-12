@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/liopay/vietqr.svg?style=flat-square)](https://packagist.org/packages/liopay/vietqr)
 
+**English** | **[Tiếng Việt](README.vi.md)**
+
 Production-ready PHP library for building and parsing VietQR (NAPAS FastFund 24/7 IBFT) QR codes compliant with EMVCo 1.5.2 specification.
 
 ## Features
