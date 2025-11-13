@@ -299,4 +299,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-For issues and questions, please use the [GitHub issue tracker](https://github.com/liopay/vietqr/issues).
+For issues and questions, please use the [GitHub issue tracker](https://github.com/liopayvn/vietqr-php/issues).

@@ -299,4 +299,4 @@ Chúng tôi hoan nghênh mọi đóng góp! Vui lòng gửi Pull Request.
 
 ## Hỗ trợ
 
-Để báo cáo lỗi và đặt câu hỏi, vui lòng sử dụng [GitHub issue tracker](https://github.com/liopay/vietqr/issues).
+Để báo cáo lỗi và đặt câu hỏi, vui lòng sử dụng [GitHub issue tracker](https://github.com/liopayvn/vietqr-php/issues).
