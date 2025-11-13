@@ -211,6 +211,7 @@ final class QRParserTest extends TestCase
             ->setReferenceLabel('REF001')
             ->setCustomerLabel('CUST001')
             ->setPurposeOfTransaction('Payment')
+            ->setAdditionalConsumerDataRequest('REQINFO')
             ->build();
 
         // Parse it
@@ -223,5 +224,6 @@ final class QRParserTest extends TestCase
         $this->assertSame('REF001', $adf->getReferenceLabel());
         $this->assertSame('CUST001', $adf->getCustomerLabel());
         $this->assertSame('Payment', $adf->getPurposeOfTransaction());
+        $this->assertSame('REQINFO', $adf->getAdditionalConsumerDataRequest());
     }
 }

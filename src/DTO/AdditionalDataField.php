@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Liopay\VietQR\DTO;
 
+use Liopay\VietQR\Constant\Specifications;
+use Liopay\VietQR\Exception\{InvalidLengthException, ValidationException};
+
 /**
  * Additional Data Field Template (ID 62)
  *
@@ -19,52 +22,68 @@ final class AdditionalDataField
     private ?string $customerLabel = null;
     private ?string $terminalLabel = null;
     private ?string $purposeOfTransaction = null;
+    private ?string $additionalConsumerDataRequest = null;
 
     public function setBillNumber(?string $billNumber): self
     {
+        $this->validateField($billNumber, 'Bill Number');
         $this->billNumber = $billNumber;
         return $this;
     }
 
     public function setMobileNumber(?string $mobileNumber): self
     {
+        $this->validateField($mobileNumber, 'Mobile Number');
         $this->mobileNumber = $mobileNumber;
         return $this;
     }
 
     public function setStoreLabel(?string $storeLabel): self
     {
+        $this->validateField($storeLabel, 'Store Label');
         $this->storeLabel = $storeLabel;
         return $this;
     }
 
     public function setLoyaltyNumber(?string $loyaltyNumber): self
     {
+        $this->validateField($loyaltyNumber, 'Loyalty Number');
         $this->loyaltyNumber = $loyaltyNumber;
         return $this;
     }
 
     public function setReferenceLabel(?string $referenceLabel): self
     {
+        $this->validateField($referenceLabel, 'Reference Label');
         $this->referenceLabel = $referenceLabel;
         return $this;
     }
 
     public function setCustomerLabel(?string $customerLabel): self
     {
+        $this->validateField($customerLabel, 'Customer Label');
         $this->customerLabel = $customerLabel;
         return $this;
     }
 
     public function setTerminalLabel(?string $terminalLabel): self
     {
+        $this->validateField($terminalLabel, 'Terminal Label');
         $this->terminalLabel = $terminalLabel;
         return $this;
     }
 
     public function setPurposeOfTransaction(?string $purposeOfTransaction): self
     {
+        $this->validateField($purposeOfTransaction, 'Purpose Of Transaction');
         $this->purposeOfTransaction = $purposeOfTransaction;
+        return $this;
+    }
+
+    public function setAdditionalConsumerDataRequest(?string $additionalConsumerDataRequest): self
+    {
+        $this->validateField($additionalConsumerDataRequest, 'Additional Consumer Data Request');
+        $this->additionalConsumerDataRequest = $additionalConsumerDataRequest;
         return $this;
     }
 
@@ -108,6 +127,11 @@ final class AdditionalDataField
         return $this->purposeOfTransaction;
     }
 
+    public function getAdditionalConsumerDataRequest(): ?string
+    {
+        return $this->additionalConsumerDataRequest;
+    }
+
     /**
      * Check if any field is set
      *
@@ -122,7 +146,8 @@ final class AdditionalDataField
             || $this->referenceLabel !== null
             || $this->customerLabel !== null
             || $this->terminalLabel !== null
-            || $this->purposeOfTransaction !== null;
+            || $this->purposeOfTransaction !== null
+            || $this->additionalConsumerDataRequest !== null;
     }
 
     /**
@@ -139,6 +164,25 @@ final class AdditionalDataField
             'customerLabel' => $this->customerLabel,
             'terminalLabel' => $this->terminalLabel,
             'purposeOfTransaction' => $this->purposeOfTransaction,
+            'additionalConsumerDataRequest' => $this->additionalConsumerDataRequest,
         ], fn($value) => $value !== null);
+    }
+
+    private function validateField(?string $value, string $fieldName): void
+    {
+        if ($value === null) {
+            return;
+        }
+
+        $length = strlen($value);
+        if ($length === 0) {
+            throw new ValidationException("{$fieldName} cannot be empty");
+        }
+
+        if ($length > Specifications::MAX_ADDITIONAL_FIELD) {
+            throw new InvalidLengthException(
+                "{$fieldName} exceeds maximum length of " . Specifications::MAX_ADDITIONAL_FIELD . " characters (got {$length})",
+            );
+        }
     }
 }

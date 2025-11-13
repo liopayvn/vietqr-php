@@ -213,6 +213,11 @@ final class QRParser
             $additionalData->setPurposeOfTransaction($adf[DataObjectId::ADF_PURPOSE_OF_TRANSACTION]);
         }
 
+        // ID 09: Additional Consumer Data Request
+        if (isset($adf[DataObjectId::ADF_ADDITIONAL_CONSUMER_DATA_REQUEST])) {
+            $additionalData->setAdditionalConsumerDataRequest($adf[DataObjectId::ADF_ADDITIONAL_CONSUMER_DATA_REQUEST]);
+        }
+
         $data->setAdditionalData($additionalData);
     }
 
