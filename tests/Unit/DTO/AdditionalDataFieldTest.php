@@ -33,4 +33,24 @@ final class AdditionalDataFieldTest extends TestCase
 
         $this->assertSame('EXTRAINFO', $additionalData->getAdditionalConsumerDataRequest());
     }
+
+    public function testAcceptsMaximumLengthValue(): void
+    {
+        $additionalData = new AdditionalDataField();
+
+        // Maximum allowed length is 25 characters
+        $maxLengthValue = str_repeat('A', 25);
+        $additionalData->setBillNumber($maxLengthValue);
+
+        $this->assertSame($maxLengthValue, $additionalData->getBillNumber());
+    }
+
+    public function testRejectsValueExactlyAtMaxPlusOne(): void
+    {
+        $additionalData = new AdditionalDataField();
+
+        // 26 characters should be rejected
+        $this->expectException(InvalidLengthException::class);
+        $additionalData->setReferenceLabel(str_repeat('A', 26));
+    }
 }

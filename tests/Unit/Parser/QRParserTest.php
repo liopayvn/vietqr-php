@@ -226,4 +226,48 @@ final class QRParserTest extends TestCase
         $this->assertSame('Payment', $adf->getPurposeOfTransaction());
         $this->assertSame('REQINFO', $adf->getAdditionalConsumerDataRequest());
     }
+
+    public function testRoundTripBuildAndParse(): void
+    {
+        // Build a comprehensive QR code with all fields
+        $builder = (new QRPushBuilder())
+            ->setAcquirerBankBin('970422')
+            ->setMerchantId('0123456789')
+            ->setServiceCode('QRPUSH')
+            ->setMerchantCategoryCode('5999')
+            ->setCurrency('704')
+            ->setAmount('100000.50')
+            ->setCountry('vn') // Test lowercase normalization
+            ->setMerchantName('Test Merchant')
+            ->setMerchantCity('Hanoi')
+            ->setPostalCode('100000')
+            ->setBillNumber('BILL123')
+            ->setMobileNumber('0901234567')
+            ->setReferenceLabel('REF001')
+            ->setAdditionalConsumerDataRequest('EXTRADATA');
+
+        $qrString = $builder->build();
+
+        // Parse the QR code back
+        $parsed = $this->parser->parse($qrString);
+
+        // Verify all fields match
+        $this->assertSame('970422', $parsed->getBankBin());
+        $this->assertSame('0123456789', $parsed->getMerchantId());
+        $this->assertSame('QRPUSH', $parsed->getServiceCode());
+        $this->assertSame('5999', $parsed->getMerchantCategoryCode());
+        $this->assertSame('704', $parsed->getCurrency());
+        $this->assertSame('100000.50', $parsed->getAmount());
+        $this->assertSame('VN', $parsed->getCountry()); // Should be uppercase after normalization
+        $this->assertSame('Test Merchant', $parsed->getMerchantName());
+        $this->assertSame('Hanoi', $parsed->getMerchantCity());
+        $this->assertSame('100000', $parsed->getPostalCode());
+
+        // Verify additional data fields
+        $adf = $parsed->getAdditionalData();
+        $this->assertSame('BILL123', $adf->getBillNumber());
+        $this->assertSame('0901234567', $adf->getMobileNumber());
+        $this->assertSame('REF001', $adf->getReferenceLabel());
+        $this->assertSame('EXTRADATA', $adf->getAdditionalConsumerDataRequest());
+    }
 }

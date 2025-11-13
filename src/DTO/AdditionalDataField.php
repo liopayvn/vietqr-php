@@ -168,6 +168,18 @@ final class AdditionalDataField
         ], fn($value) => $value !== null);
     }
 
+    /**
+     * Validate additional data field
+     *
+     * Ensures field is either null (not set) or a non-empty string within the maximum length.
+     * Empty strings are rejected to prevent invalid QR codes, as the EMVCo specification
+     * requires all present fields to have meaningful values.
+     *
+     * @param string|null $value The field value to validate
+     * @param string $fieldName The field name for error messages
+     * @throws ValidationException If value is an empty string
+     * @throws InvalidLengthException If value exceeds maximum length
+     */
     private function validateField(?string $value, string $fieldName): void
     {
         if ($value === null) {

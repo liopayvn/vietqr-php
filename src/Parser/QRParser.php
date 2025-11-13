@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liopay\VietQR\Parser;
 
-use Liopay\VietQR\Constant\{DataObjectId, ServiceCodes};
+use Liopay\VietQR\Constant\{DataObjectId, ServiceCodes, Specifications};
 use Liopay\VietQR\DTO\{AdditionalDataField, ParsedQRData};
-use Liopay\VietQR\Exception\{InvalidCRCException, InvalidFormatException};
+use Liopay\VietQR\Exception\{InvalidCRCException, InvalidFormatException, InvalidLengthException, ValidationException};
 use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
 
 /**
@@ -92,7 +92,9 @@ final class QRParser
         // ID 53: Transaction Currency
         /** @phpstan-ignore-next-line */
         if (isset($parsed[DataObjectId::TRANSACTION_CURRENCY])) {
-            $data->setCurrency($parsed[DataObjectId::TRANSACTION_CURRENCY]);
+            $currency = $parsed[DataObjectId::TRANSACTION_CURRENCY];
+            $this->validateCurrency($currency);
+            $data->setCurrency($currency);
         }
 
         // ID 54: Transaction Amount
@@ -104,7 +106,9 @@ final class QRParser
         // ID 58: Country Code
         /** @phpstan-ignore-next-line */
         if (isset($parsed[DataObjectId::COUNTRY_CODE])) {
-            $data->setCountry($parsed[DataObjectId::COUNTRY_CODE]);
+            $country = $parsed[DataObjectId::COUNTRY_CODE];
+            $this->validateCountry($country);
+            $data->setCountry($country);
         }
 
         // ID 59: Merchant Name
@@ -161,7 +165,9 @@ final class QRParser
 
         // ID 02: Service Code
         if (isset($mai[DataObjectId::MAI_SERVICE_CODE])) {
-            $data->setServiceCode($mai[DataObjectId::MAI_SERVICE_CODE]);
+            $serviceCode = $mai[DataObjectId::MAI_SERVICE_CODE];
+            $this->validateServiceCode($serviceCode);
+            $data->setServiceCode($serviceCode);
         }
     }
 
@@ -239,6 +245,66 @@ final class QRParser
             $data->setQRType('QRPUSH');
         } else {
             $data->setQRType('UNKNOWN');
+        }
+    }
+
+    /**
+     * Validate currency code from parsed QR data
+     *
+     * @throws InvalidFormatException If currency is invalid
+     */
+    private function validateCurrency(string $currency): void
+    {
+        if (strlen($currency) !== Specifications::CURRENCY_LENGTH) {
+            throw new InvalidFormatException(
+                "Currency must be exactly " . Specifications::CURRENCY_LENGTH . " characters, got " . strlen($currency)
+            );
+        }
+
+        if (!ctype_digit($currency)) {
+            throw new InvalidFormatException("Currency must be numeric, got: {$currency}");
+        }
+    }
+
+    /**
+     * Validate country code from parsed QR data
+     *
+     * @throws InvalidFormatException If country code is invalid
+     */
+    private function validateCountry(string $country): void
+    {
+        if (strlen($country) !== Specifications::COUNTRY_LENGTH) {
+            throw new InvalidFormatException(
+                "Country must be exactly " . Specifications::COUNTRY_LENGTH . " characters, got " . strlen($country)
+            );
+        }
+
+        if (!ctype_alpha($country)) {
+            throw new InvalidFormatException("Country must contain only alphabetic characters, got: {$country}");
+        }
+
+        if ($country !== strtoupper($country)) {
+            throw new InvalidFormatException("Country must be uppercase, got: {$country}");
+        }
+    }
+
+    /**
+     * Validate service code from parsed QR data
+     *
+     * @throws InvalidFormatException If service code is invalid
+     */
+    private function validateServiceCode(string $serviceCode): void
+    {
+        if (strlen($serviceCode) > Specifications::MAX_SERVICE_CODE) {
+            throw new InvalidFormatException(
+                "Service code exceeds maximum length of " . Specifications::MAX_SERVICE_CODE . " characters"
+            );
+        }
+
+        if (!ServiceCodes::isValid($serviceCode)) {
+            throw new InvalidFormatException(
+                "Invalid service code: {$serviceCode}. Allowed values: " . implode(', ', ServiceCodes::getAll())
+            );
         }
     }
 }

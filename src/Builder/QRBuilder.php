@@ -156,7 +156,7 @@ abstract class QRBuilder
      */
     public function setCountry(string $country = Specifications::COUNTRY_VN): self
     {
-        $this->validateAlphaField('Country', $country, Specifications::COUNTRY_LENGTH);
+        $this->validateAlphaField($country, 'Country', Specifications::COUNTRY_LENGTH);
         $this->data['country'] = $country;
         return $this;
     }
@@ -391,10 +391,13 @@ abstract class QRBuilder
     }
 
     /**
-     * Validate alphabetic field
+     * Validate alphabetic field (normalizes to uppercase)
      */
-    protected function validateAlphaField(string $fieldName, string $value, int $expectedLength): void
+    protected function validateAlphaField(string &$value, string $fieldName, int $expectedLength): void
     {
+        // Normalize to uppercase for case-insensitive comparison
+        $value = strtoupper($value);
+
         if (strlen($value) !== $expectedLength) {
             throw new InvalidLengthException(
                 "{$fieldName} must be exactly {$expectedLength} characters, got " . strlen($value),
@@ -403,10 +406,6 @@ abstract class QRBuilder
 
         if (!ctype_alpha($value)) {
             throw new ValidationException("{$fieldName} must contain only alphabetic characters, got: {$value}");
-        }
-
-        if ($value !== strtoupper($value)) {
-            throw new ValidationException("{$fieldName} must be uppercase, got: {$value}");
         }
     }
 
