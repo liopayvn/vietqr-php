@@ -47,5 +47,9 @@ final class DataObjectId
     public const ADF_CUSTOMER_LABEL = '06';
     public const ADF_TERMINAL_LABEL = '07';
     public const ADF_PURPOSE_OF_TRANSACTION = '08';
+    /**
+     * Additional Consumer Data Request
+     * Used to request specific data from the consumer during transaction processing
+     */
     public const ADF_ADDITIONAL_CONSUMER_DATA_REQUEST = '09';
 }

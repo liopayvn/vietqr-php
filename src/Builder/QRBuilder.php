@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liopay\VietQR\Builder;
 
-use Liopay\VietQR\Constant\{DataObjectId, Specifications};
+use Liopay\VietQR\Constant\{DataObjectId, ServiceCodes, Specifications};
 use Liopay\VietQR\DTO\AdditionalDataField;
 use Liopay\VietQR\Exception\{InvalidLengthException, MissingRequiredFieldException, ValidationException};
 use Liopay\VietQR\Helper\{TLVHelper, CRCHelper};
@@ -103,7 +103,7 @@ abstract class QRBuilder
     public function setServiceCode(?string $serviceCode): self
     {
         if ($serviceCode !== null) {
-            $this->validateFieldLength('Service Code', $serviceCode, Specifications::MAX_SERVICE_CODE);
+            $this->validateServiceCode($serviceCode);
         }
         $this->data['serviceCode'] = $serviceCode;
         return $this;
@@ -129,6 +129,7 @@ abstract class QRBuilder
      */
     public function setCurrency(string $currency = Specifications::CURRENCY_VND): self
     {
+        $this->validateNumericField('Currency', $currency, Specifications::CURRENCY_LENGTH);
         $this->data['currency'] = $currency;
         return $this;
     }
@@ -155,6 +156,7 @@ abstract class QRBuilder
      */
     public function setCountry(string $country = Specifications::COUNTRY_VN): self
     {
+        $this->validateAlphaField($country, 'Country', Specifications::COUNTRY_LENGTH);
         $this->data['country'] = $country;
         return $this;
     }
@@ -279,6 +281,15 @@ abstract class QRBuilder
     }
 
     /**
+     * @return static
+     */
+    public function setAdditionalConsumerDataRequest(?string $request): self
+    {
+        $this->additionalData->setAdditionalConsumerDataRequest($request);
+        return $this;
+    }
+
+    /**
      * Build merchant account information (ID 38)
      */
     protected function buildMerchantAccountInfo(): string
@@ -338,8 +349,29 @@ abstract class QRBuilder
         if ($this->additionalData->getPurposeOfTransaction()) {
             $adf .= $this->tlvHelper->encode(DataObjectId::ADF_PURPOSE_OF_TRANSACTION, $this->additionalData->getPurposeOfTransaction());
         }
+        if ($this->additionalData->getAdditionalConsumerDataRequest()) {
+            $adf .= $this->tlvHelper->encode(DataObjectId::ADF_ADDITIONAL_CONSUMER_DATA_REQUEST, $this->additionalData->getAdditionalConsumerDataRequest());
+        }
 
         return $adf ? $this->tlvHelper->encode(DataObjectId::ADDITIONAL_DATA_FIELD_TEMPLATE, $adf) : '';
+    }
+
+    /**
+     * Validate service code against allowed set
+     */
+    protected function validateServiceCode(string $serviceCode): void
+    {
+        $this->validateFieldLength('Service Code', $serviceCode, Specifications::MAX_SERVICE_CODE);
+
+        if (!ServiceCodes::isValid($serviceCode)) {
+            throw new ValidationException(
+                sprintf(
+                    "Invalid service code: %s. Allowed values: %s",
+                    $serviceCode,
+                    implode(', ', ServiceCodes::getAll()),
+                ),
+            );
+        }
     }
 
     /**
@@ -355,6 +387,25 @@ abstract class QRBuilder
             throw new InvalidLengthException(
                 "{$fieldName} must be exactly {$expectedLength} digits, got " . strlen($value),
             );
+        }
+    }
+
+    /**
+     * Validate alphabetic field (normalizes to uppercase)
+     */
+    protected function validateAlphaField(string &$value, string $fieldName, int $expectedLength): void
+    {
+        // Normalize to uppercase for case-insensitive comparison
+        $value = strtoupper($value);
+
+        if (strlen($value) !== $expectedLength) {
+            throw new InvalidLengthException(
+                "{$fieldName} must be exactly {$expectedLength} characters, got " . strlen($value),
+            );
+        }
+
+        if (!ctype_alpha($value)) {
+            throw new ValidationException("{$fieldName} must contain only alphabetic characters, got: {$value}");
         }
     }
 
