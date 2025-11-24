@@ -66,7 +66,36 @@ echo $qrData->getServiceCode(); // "QRPUSH"
 
 VietQR hỗ trợ bốn loại dịch vụ:
 
-### 1. **QRPUSH** - Dịch vụ thanh toán
+### 1. **QRIBFTTA** - Chuyển khoản liên ngân hàng đến tài khoản
+Chuyển khoản ngang hàng đến tài khoản ngân hàng.
+
+```php
+$builder = new QRIBFTBuilder();
+$qr = $builder
+    ->setPointOfInitiation('12') // QR động
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('1017595600')
+    ->setIBFTToAccount()
+    ->setAmount('180000')
+    ->setPurposeOfTransaction('thanh toan don hang')
+    ->build();
+```
+
+### 2. **QRIBFTTC** - Chuyển khoản liên ngân hàng đến thẻ
+Chuyển khoản ngang hàng đến số thẻ.
+
+```php
+$builder = new QRIBFTBuilder();
+$qr = $builder
+    ->setPointOfInitiation('12') // QR động
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('9704361017595600')
+    ->setIBFTToCard()
+    ->setAmount('180000')
+    ->build();
+```
+
+### 3. **QRPUSH** - Dịch vụ thanh toán
 Mã QR thanh toán merchant tiêu chuẩn.
 
 ```php
@@ -82,7 +111,7 @@ $qr = $builder
     ->build();
 ```
 
-### 2. **QRCASH** - Rút tiền mặt ATM
+### 4. **QRCASH** - Rút tiền mặt ATM
 Mã QR để rút tiền mặt tại ATM. **Lưu ý**: Reference Label và Terminal Label là bắt buộc.
 
 ```php
@@ -97,33 +126,6 @@ $qr = $builder
     ->setMerchantCity('HANOI')
     ->setReferenceLabel('20190109155714228384') // Bắt buộc
     ->setTerminalLabel('0000111') // Bắt buộc
-    ->build();
-```
-
-### 3. **QRIBFTTA** - Chuyển khoản liên ngân hàng đến tài khoản
-Chuyển khoản ngang hàng đến tài khoản ngân hàng.
-
-```php
-$builder = new QRIBFTBuilder();
-$qr = $builder
-    ->setPointOfInitiation('11') // QR tĩnh
-    ->setBeneficiaryBankBin('970436')
-    ->setConsumerId('1017595600')
-    ->setIBFTToAccount()
-    ->build();
-```
-
-### 4. **QRIBFTTC** - Chuyển khoản liên ngân hàng đến thẻ
-Chuyển khoản ngang hàng đến số thẻ.
-
-```php
-$builder = new QRIBFTBuilder();
-$qr = $builder
-    ->setPointOfInitiation('12') // QR động
-    ->setBeneficiaryBankBin('970436')
-    ->setConsumerId('9704361017595600')
-    ->setIBFTToCard()
-    ->setAmount('180000')
     ->build();
 ```
 

@@ -72,10 +72,12 @@ Peer-to-peer transfer to bank account.
 ```php
 $builder = new QRIBFTBuilder();
 $qr = $builder
-    ->setPointOfInitiation('11') // Static
+    ->setPointOfInitiation('12') // Dynamic
     ->setBeneficiaryBankBin('970436')
     ->setConsumerId('1017595600')
     ->setIBFTToAccount()
+    ->setAmount('180000')
+    ->setPurposeOfTransaction('thanh toan don hang')
     ->build();
 ```
 
