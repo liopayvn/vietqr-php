@@ -28,24 +28,23 @@ composer require liopay/vietqr
 
 ## Bắt đầu nhanh
 
-### Tạo mã QR thanh toán tĩnh
+### Tạo mã QR chuyển khoản liên ngân hàng
 
 ```php
-use Liopay\VietQR\Builder\QRPushBuilder;
+use Liopay\VietQR\Builder\QRIBFTBuilder;
 
-$builder = new QRPushBuilder();
+$builder = new QRIBFTBuilder();
 
 $qrString = $builder
-    ->setPointOfInitiation('11') // QR tĩnh
-    ->setAcquirerBankBin('970436')
-    ->setMerchantId('1017595600')
-    ->setMerchantCategoryCode('5812')
-    ->setMerchantName('NGO QUOC DAT')
-    ->setMerchantCity('HANOI')
-    ->setReferenceLabel('NPS6869')
+    ->setPointOfInitiation('12') // Dynamic QR
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('1017595600')
+    ->setIBFTToAccount()
+    ->setAmount('180000')
+    ->setPurposeOfTransaction('thanh toan don hang')
     ->build();
 
-// Kết quả: 00020101021138480010A000000727013000069704360114101759560025520458125303704580 2VN5912NGO QUOC DAT6005HANOI62110307NPS686963045802
+// Kết quả: 00020101021238540010A00000072701240006970436011010175956000208QRIBFTTA530370454061800005802VN62230819thanh toan don hang630470FA
 ```
 
 ### Phân tích mã QR
@@ -57,9 +56,10 @@ $parser = new QRParser();
 
 $qrData = $parser->parse($qrString);
 
-echo $qrData->getMerchantName(); // "NGO QUOC DAT"
+echo $qrData->getConsumerId(); // "1017595600"
 echo $qrData->getAmount(); // "180000"
-echo $qrData->getServiceCode(); // "QRPUSH"
+echo $qrData->getServiceCode(); // "QRIBFTTA"
+echo $qrData->getPurposeOfTransaction(); // "thanh toan don hang"
 ```
 
 ## Các loại dịch vụ
