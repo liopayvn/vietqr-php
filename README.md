@@ -66,7 +66,34 @@ echo $qrData->getServiceCode(); // "QRPUSH"
 
 VietQR supports four service types:
 
-### 1. **QRPUSH** - Payment Service
+### 1. **QRIBFTTA** - Inter-Bank Fund Transfer to Account
+Peer-to-peer transfer to bank account.
+
+```php
+$builder = new QRIBFTBuilder();
+$qr = $builder
+    ->setPointOfInitiation('11') // Static
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('1017595600')
+    ->setIBFTToAccount()
+    ->build();
+```
+
+### 2. **QRIBFTTC** - Inter-Bank Fund Transfer to Card
+Peer-to-peer transfer to card number.
+
+```php
+$builder = new QRIBFTBuilder();
+$qr = $builder
+    ->setPointOfInitiation('12') // Dynamic
+    ->setBeneficiaryBankBin('970436')
+    ->setConsumerId('9704361017595600')
+    ->setIBFTToCard()
+    ->setAmount('180000')
+    ->build();
+```
+
+### 3. **QRPUSH** - Payment Service
 Standard merchant payment QR codes.
 
 ```php
@@ -82,7 +109,7 @@ $qr = $builder
     ->build();
 ```
 
-### 2. **QRCASH** - ATM Cash Withdrawal
+### 4. **QRCASH** - ATM Cash Withdrawal
 QR codes for ATM cash withdrawal. **Note**: Reference Label and Terminal Label are mandatory.
 
 ```php
@@ -97,33 +124,6 @@ $qr = $builder
     ->setMerchantCity('HANOI')
     ->setReferenceLabel('20190109155714228384') // Required
     ->setTerminalLabel('0000111') // Required
-    ->build();
-```
-
-### 3. **QRIBFTTA** - Inter-Bank Fund Transfer to Account
-Peer-to-peer transfer to bank account.
-
-```php
-$builder = new QRIBFTBuilder();
-$qr = $builder
-    ->setPointOfInitiation('11') // Static
-    ->setBeneficiaryBankBin('970436')
-    ->setConsumerId('1017595600')
-    ->setIBFTToAccount()
-    ->build();
-```
-
-### 4. **QRIBFTTC** - Inter-Bank Fund Transfer to Card
-Peer-to-peer transfer to card number.
-
-```php
-$builder = new QRIBFTBuilder();
-$qr = $builder
-    ->setPointOfInitiation('12') // Dynamic
-    ->setBeneficiaryBankBin('970436')
-    ->setConsumerId('9704361017595600')
-    ->setIBFTToCard()
-    ->setAmount('180000')
     ->build();
 ```
 
